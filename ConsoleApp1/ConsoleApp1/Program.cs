@@ -4,11 +4,14 @@
     {
         static void Main(string[] args)
         {
-            Console.Write("다음은 섭씨온도를 화씨온도로 변환하는 프로그램입니다. 섭씨온도를 입력해주세요.");
-            float Temperature = float.Parse(Console.ReadLine());
+            Console.WriteLine("안녕하세요 BMI 수치를 알려드리겠습니다.");
+            Console.Write("체중을 Kg 단위로 입력하세요.");
+            float Weight = float.Parse(Console.ReadLine());
+            Console.Write("키를 Cm 단위로 입력하세요.");
+            float Height = float.Parse(Console.ReadLine())/100;
+            float BMI = Weight / (Height * Height); // BMI 계산 공식 체중 / 신장제곱
+            Console.WriteLine(BMI);
 
-            float F_Temperature = (float)(Temperature * 1.8) + 32;
-            Console.WriteLine($"{Temperature}C를 화씨온도로 바꾸면 {F_Temperature}F입니다.");
         }
     }
 }
