@@ -4,16 +4,11 @@
     {
         static void Main(string[] args)
         {
-            Console.Write("첫 번째 숫자를 입력하세요.");
-            int Num1 = int.Parse(Console.ReadLine());
-            Console.Write("두 번째 숫자를 입력하세요.");
-            int Num2 = int.Parse(Console.ReadLine());
-            Console.WriteLine("두 수의 사칙연산 결과입니다.");
-            Console.WriteLine("더하기 " + (Num1 + Num2));
-            Console.WriteLine("빼기 " + (Num1 - Num2));
-            Console.WriteLine("곱하기 " + Num1 * Num2);
-            Console.WriteLine("나누기 " + Num1 / Num2);
-            Console.WriteLine("나머지 " + Num1 % Num2);
+            Console.Write("다음은 섭씨온도를 화씨온도로 변환하는 프로그램입니다. 섭씨온도를 입력해주세요.");
+            float Temperature = float.Parse(Console.ReadLine());
+
+            float F_Temperature = (float)(Temperature * 1.8) + 32;
+            Console.WriteLine($"{Temperature}C를 화씨온도로 바꾸면 {F_Temperature}F입니다.");
         }
     }
 }
