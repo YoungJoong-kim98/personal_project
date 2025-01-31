@@ -4,68 +4,137 @@ namespace ConsoleApp1
 {
     internal class Program
     {
+        static char[] arr = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        static int player = 1;
+        static int choice;
+        static int flag = 0;
+
         static void Main(string[] args)
         {
-            int[] com = new int[3] {0,0,0}; // 컴퓨터 랜덤 값을 저장 할 배열
-            int[] user = new int[3]; // 사용자가 입력할 값을 저장 할 배열
-            int count = 0; // 횟수를 저장 할 변수
-            int z = 0; // while 문에 쓰일 변수
-            while (true) // 중복 숫자가 들어가지 못하도록 방지
+            do
             {
-                
-                com[z] = new Random().Next(1,10);
-                z++;
-                if(z>=3)
+                Console.Clear();
+                Console.WriteLine("플레이어 1: X 와 플레이어 2: O");
+                Console.WriteLine("\n");
+
+                if (player % 2 == 0)
                 {
-                    if (com[0] == com[1] || com[0] == com[2] || com[1] == com[2])
+                    Console.WriteLine("플레이어 2의 차례");
+                }
+                else
+                {
+                    Console.WriteLine("플레이어 1의 차례");
+                }
+
+                Console.WriteLine("\n");
+                Board();
+
+                string line = Console.ReadLine();
+                bool res = int.TryParse(line, out choice);
+
+                if (res == true)
+                {
+                    if (arr[choice] != 'X' && arr[choice] != 'O')
                     {
-                        z = 0;
+                        if (player % 2 == 0)
+                        {
+                            arr[choice] = 'O';
+                        }
+                        else
+                        {
+                            arr[choice] = 'X';
+                        }
+
+                        player++;
                     }
                     else
                     {
-                        break;
+                        Console.WriteLine("죄송합니다. {0} 행은 이미 {1}로 표시되어 있습니다.", choice, arr[choice]);
+                        Console.ReadLine();
                     }
                 }
-                
+                else
+                {
+                    Console.WriteLine("숫자를 입려해주세요.");
+                }
+
+                flag = CheckWin();
             }
-            for (int i = 0; i < 3; i++)
+            while (flag != -1 && flag != 1);
+
+            if (flag == 1)
             {
-                Console.WriteLine(com[i]); // 컴퓨터 랜덤 값 확인
+                Console.WriteLine("플레이어 {0}이(가) 이겼습니다.", (player % 2) + 1);
             }
-
-
-
-            while(true)
+            else
             {
-                count++; // 횟수 
-                int correct = 0; //맞춘 숫자 초기화
-                Console.WriteLine("컴퓨터의 1~9까지 3개의 숫자를 맞춰보세요");
-                for (int i = 0; i<3;i++)
-                {
-                    user[i] = int.Parse(Console.ReadLine());
-                }
-
-                for (int i = 0;i<3;i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (com[i] == user[j])
-                        {
-                            correct++;
-                            break;
-                        }
-                    }
-                }
-
-                Console.WriteLine("시도" + count + " : " + correct + "개의 숫자를 맞추셨습니다.");
-
-                if(correct == 3)
-                {
-                    Console.WriteLine("축하합니다.! 모든 숫자를 맞추셨습니다.!");
-                    break;
-                }
+                Console.WriteLine("무승부");
             }
-            
+
+            Console.ReadLine();
+        }
+
+        static void Board()
+        {
+            Console.WriteLine("     |     |     ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}  ", arr[1], arr[2], arr[3]);
+            Console.WriteLine("_____|_____|_____");
+            Console.WriteLine("     |     |     ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}  ", arr[4], arr[5], arr[6]);
+            Console.WriteLine("_____|_____|_____");
+            Console.WriteLine("     |     |     ");
+            Console.WriteLine("  {0}  |  {1}  |  {2}  ", arr[7], arr[8], arr[9]);
+            Console.WriteLine("     |     |     ");
+        }
+
+        static int CheckWin()
+        {
+            // 가로 승리 조건
+            if (arr[1] == arr[2] && arr[2] == arr[3])
+            {
+                return 1;
+            }
+            else if (arr[4] == arr[5] && arr[5] == arr[6])
+            {
+                return 1;
+            }
+            else if (arr[7] == arr[8] && arr[8] == arr[9])
+            {
+                return 1;
+            }
+
+            // 세로 승리 조건
+            else if (arr[1] == arr[4] && arr[4] == arr[7])
+            {
+                return 1;
+            }
+            else if (arr[2] == arr[5] && arr[5] == arr[8])
+            {
+                return 1;
+            }
+            else if (arr[3] == arr[6] && arr[6] == arr[9])
+            {
+                return 1;
+            }
+
+            // 대각선 승리조건
+            else if (arr[1] == arr[5] && arr[5] == arr[9])
+            {
+                return 1;
+            }
+            else if (arr[3] == arr[5] && arr[5] == arr[7])
+            {
+                return 1;
+            }
+
+            // 무승부
+            else if (arr[1] != '1' && arr[2] != '2' && arr[3] != '3' && arr[4] != '4' && arr[5] != '5' && arr[6] != '6' &&
+                arr[7] != '7' && arr[8] != '8' && arr[9] != '9')
+            {
+                return -1;
+            }
+            else { return 0; }
+
         }
     }
 }
