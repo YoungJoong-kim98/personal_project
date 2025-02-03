@@ -8,11 +8,11 @@ namespace ConsoleApp2
     {
         class Item
         {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public int EffectValue { get; set; }  // 예: 체력 회복, 공격력 증가
+            public string Name { get; set; } // 아이템 이름
+            public string Description { get; set; } // 아이템 설명
+            public int EffectValue { get; set; }  // 아이템 효과
             public bool IsEquipped { get; set; }  // 아이템 장착 여부
-            public string ItemType { get; set; }
+            public string ItemType { get; set; } // 아이템 타입
 
             public Item(string name, string description, int effectValue ,string Type)
             {
@@ -37,8 +37,8 @@ namespace ConsoleApp2
             public float Attack { get; set; } // 공격력
             public float Defense { get; set; } // 방어력
             public float Health { get; set; } // 체력
-            public float Gold { get; set; }
-            public List<Item> Inventory { get; set; }
+            public float Gold { get; set; } // 돈
+            public List<Item> Inventory { get; set; } // 아이템 리스트
             public Item EquippedItem { get; set; } // 장착된 아이템
 
             public Character()
@@ -54,17 +54,17 @@ namespace ConsoleApp2
 
             public void EquipItem(Item item)
             {
-                if (item != null && !item.IsEquipped)
+                if (item != null && !item.IsEquipped) //아이템이 null이 아니고 장착여부가 false 이면 실행
                 {
-                    item.IsEquipped = true;
+                    item.IsEquipped = true;  
                     EquippedItem = item;
                     if (item.ItemType == "공격")
                     {
-                        Attack += item.EffectValue;  // 장착 시 방어력 증가
+                        Attack += item.EffectValue;  // 장착 시 공격력 증가
                     }
-                    else if(item.ItemType == "방어")
+                    else if(item.ItemType == "방어") 
                     {
-                        Defense += item.EffectValue;
+                        Defense += item.EffectValue; // 장착 시 방어력 증가
                     }
                     Console.WriteLine($"{item.Name}을 장착했습니다.");
                 }
