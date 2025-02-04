@@ -38,12 +38,14 @@ namespace ConsoleApp2
         class Store
         {
             public List<Item> ItemsForSale { get; set; } // 상점에 등록된 아이템 리스트
-            public List<Item> ItemBuy { get; set; }
+            //public List<Item> ItemBuy { get; set; } // 임시
 
+            public bool ItemBuy; // 아이템 구매 여부
             public Store()
             {
                 ItemsForSale = new List<Item>(); // 아이템 리스트 초기화
-                ItemBuy = new List<Item>(); //구매한 아이템 리스트 초기화
+                //ItemBuy = new List<Item>(); //구매한 아이템 리스트 초기화 임시
+                ItemBuy = false;
             }
 
             // 아이템을 상점에 등록하는 메서드
@@ -58,14 +60,15 @@ namespace ConsoleApp2
             {
                 if (itemIndex >= 0 && itemIndex < ItemsForSale.Count) // 아이템 인덱스 번호가 0 이상이고 아이템의 길이 보다 작은 값이 들어오면
                 {
-                    Item selectedItem = ItemsForSale[itemIndex];
+                    Item selectedItem = ItemsForSale[itemIndex]; // 상점 리스트에 있는 내가 선택한 인덱스번호(이미 매개변수 전달 시 -1을 해줌)를 값을 저장
 
                     if (character.Gold >= selectedItem.ItemGold) // 보유 골드 체크
                     {
-                        character.Gold -= selectedItem.ItemGold;
-                        character.Inventory.Add(selectedItem);
-                        ItemBuy.Add(selectedItem); //구매한 아이템 리스트 추가
+                        character.Gold -= selectedItem.ItemGold; // 선택한 아이템 골드에서 내 골드를 뺌
+                        character.Inventory.Add(selectedItem); //내 인벤토리 리스트에 추가
+                        //ItemBuy.Add(selectedItem); //구매한 아이템 리스트 추가
                         Console.WriteLine($"{selectedItem.Name}을(를) 구매하였습니다!");
+                        ItemBuy= true;
                     }
                     else
                     {
@@ -79,7 +82,7 @@ namespace ConsoleApp2
             }
 
             // 상점 아이템 출력 메서드
-            public void ShowStoreItems()
+            public void ShowStoreItems() 
             {
                 Console.WriteLine("[상점 아이템 목록]");
                 if (ItemsForSale.Count == 0)
@@ -90,33 +93,34 @@ namespace ConsoleApp2
                 {
                     for (int i = 0; i < ItemsForSale.Count; i++)
                     {
-                        var item = ItemsForSale[i];
+                        var item = ItemsForSale[i]; // 0번째 인덱스부터 상점리스트에 있는 갯수만큼 상점에 출력
                         Console.WriteLine($"{i + 1}. {item.Name} | 가격: {item.ItemGold} 골드 | {item.Description} ");
                     }
                 }
             }
         }
 
-        static void Dungeon(Character MyCharacter, ref int ClearCount, string DungeonLevel , int RecommendedDefense)
+        static void Dungeon(Character MyCharacter, ref int ClearCount, string DungeonLevel, int RecommendedDefense)
         {
-            if (DungeonLevel == "Easy")
+            if (DungeonLevel == "Easy") // 쉬운 던전
             {
-                Random random = new Random();
+                Random random = new Random(); // 랜덤 값 지정
                 if (MyCharacter.Defense < RecommendedDefense)
                 {
 
-                    if (random.Next(0, 10) < 5)
+                    if (random.Next(0, 10) < 5) // 랜덤값으로 40% 확률로 클리어 가능하게 함.
                     {
                         Console.WriteLine("던전 클리어!");
-                        ClearCount += 1;
+                        ClearCount += 1; // 클리어 횟수 나중에 레벨업에 영향을 미침
                         Thread.Sleep(1000);
                         Console.Write($"체력 {MyCharacter.Health} =>");
-                        MyCharacter.Health -= (random.Next(20,36) + (RecommendedDefense - MyCharacter.Defense)); // 권장 방어력 보다 낮으니 권장 방어력에서 내 방어력 빼기 한 값을 빼줌
+                        MyCharacter.Health -= (random.Next(20, 36) + (RecommendedDefense - MyCharacter.Defense)); // 권장 방어력 보다 낮으니 권장 방어력에서 내 방어력 빼기 한 값을 빼줌
                         Console.WriteLine($"{MyCharacter.Health}");
                         Console.Write($"Gold {MyCharacter.Gold} G =>");
-                        MyCharacter.Gold += 1000 + MyCharacter.Attack * random.Next(10, 20); ;
+                        MyCharacter.Gold += 1000 + MyCharacter.Attack * random.Next(10, 20); ; // 쉬운던전 클리어 보상 1000+공격력의 랜덤값 10~20%
                         Console.WriteLine($"{MyCharacter.Gold} G");
                         Thread.Sleep(1000);
+                        
 
                     }
                     else
@@ -185,7 +189,7 @@ namespace ConsoleApp2
                     MyCharacter.Health -= (random.Next(20, 36) - (MyCharacter.Defense - RecommendedDefense));  //체력 감소 내 방어력이 더 높으니 권장 방어력 - 한 값을 더해줌
                     Console.WriteLine($"{MyCharacter.Health}");
                     Console.Write($"Gold {MyCharacter.Gold} G =>");
-                    MyCharacter.Gold += 1700 + MyCharacter.Attack * random.Next(10, 20);  // 쉬운던전 클리어 보상 1000+공격력의 랜덤값 10~20%
+                    MyCharacter.Gold += 1700 + MyCharacter.Attack * random.Next(10, 20);  // 일반던전 클리어 보상 1700+공격력의 랜덤값 10~20%
                     Console.WriteLine($"{MyCharacter.Gold} G");
                     Thread.Sleep(1000);
                 }
@@ -230,12 +234,12 @@ namespace ConsoleApp2
                     MyCharacter.Health -= (random.Next(20, 36) - (MyCharacter.Defense - RecommendedDefense));  //체력 감소 내 방어력이 더 높으니 권장 방어력 - 한 값을 더해줌
                     Console.WriteLine($"{MyCharacter.Health}");
                     Console.Write($"Gold {MyCharacter.Gold} G =>");
-                    MyCharacter.Gold += 2500 + MyCharacter.Attack * random.Next(10, 20);  // 쉬운던전 클리어 보상 1000+공격력의 랜덤값 10~20%
+                    MyCharacter.Gold += 2500 + MyCharacter.Attack * random.Next(10, 20);  // 어려운 던전 클리어 보상 2500+공격력의 랜덤값 10~20%
                     Console.WriteLine($"{MyCharacter.Gold} G");
                     Thread.Sleep(1000);
                 }
             }
-            if(MyCharacter.Health>0)
+            if (MyCharacter.Health > 0) // 플레이어 체력이 0 보다 크면 클리어횟수에 따른 레벨업과 공격력 , 방어력 증가
             {
                 MyCharacter.Lv = ClearCount;
                 MyCharacter.Attack += 0.5f;
@@ -247,7 +251,7 @@ namespace ConsoleApp2
             }
             else
             {
-                Console.WriteLine("플레이어가 죽었습니다.");
+                Console.WriteLine("플레이어가 죽었습니다."); // 플레이어 사망
             }
 
 
@@ -472,17 +476,99 @@ namespace ConsoleApp2
                     {
                         Console.WriteLine($"[보유 골드]\n{MyCharacter.Gold}");
 
-                        myStore.ShowStoreItems();
-                        Console.WriteLine("\n구매할 아이템 번호를 입력하세요 (0: 나가기).");
-                        int buyChoice;
-                        if (int.TryParse(Console.ReadLine(), out buyChoice) && buyChoice >= 1 && buyChoice <= myStore.ItemsForSale.Count)
+
+                        Console.WriteLine("\n1.아이템 구매\n2.아이템 판매\n0.나가기");
+                        while (true)
                         {
-                            myStore.BuyItem(MyCharacter, buyChoice - 1); //아이템 구매 메서드 실행
+                            select = Console.ReadLine();
+                            IsNum = int.TryParse(select, out Num);
+                            if (IsNum)
+                            {
+                                if (Num == 1)
+                                {
+                                    Console.WriteLine("아이템 구매를 선택하셨군요. 보기에서 원하는 아이템 번호를 입력하세요.");
+                                    Console.WriteLine($"[보유 골드]\n{MyCharacter.Gold}");
+                                    myStore.ShowStoreItems();
+                                    Console.WriteLine("\n0.나가기");
+                                    int buyChoice;
+                                    if (int.TryParse(Console.ReadLine(), out buyChoice) && buyChoice >= 1 && buyChoice <= myStore.ItemsForSale.Count)
+                                    {
+                                        myStore.BuyItem(MyCharacter, buyChoice - 1); //아이템 구매 메서드 실행
+                                        break;
+                                    }
+                                    else if (buyChoice != 0)
+                                    {
+                                        Console.WriteLine("잘못된 입력입니다.");
+                                    }
+                                    else if (buyChoice == 0)
+                                    {
+                                        Console.WriteLine("상점을 나갑니다.");
+                                        break;
+                                    }
+
+                                }
+                                else if (Num == 2)
+                                {
+                                    Console.WriteLine("[내 아이템 목록]");
+                                    if (MyCharacter.Inventory.Count == 0)
+                                    {
+                                        Console.WriteLine("인벤토리 아이템이 없습니다.");
+                                    }
+                                    else
+                                    {
+                                        int index = 1;
+                                        foreach (var item in MyCharacter.Inventory)
+                                        {
+                                            //아이템 번호 및 이름 효과 설명 , 그리고 판매금액 원래 상점가 보다 15% 할인 판매
+
+                                            Console.WriteLine($"  {index} | {(item.IsEquipped ? "[E]" : "")} | {item.Name} | {item.EffectValue} | {item.Description} | 판매금액 {item.ItemGold * 0.85}");
+                                            index++;
+
+
+                                        }
+
+                                        Console.WriteLine("판매할 아이템을 번호를 입력하세요. 0.나가기");
+                                        int itemChoice;
+                                        if (int.TryParse(Console.ReadLine(), out itemChoice) && itemChoice >= 1 && itemChoice <= MyCharacter.Inventory.Count)
+                                        {
+
+                                            var selectedItem = MyCharacter.Inventory[itemChoice - 1];
+                                            Console.WriteLine($"{selectedItem.Name}을(를) {selectedItem.ItemGold * 0.85} 골드에 판매하시겠습니까? (Y/N)");
+
+                                            string confirm = Console.ReadLine();
+
+                                            if (confirm.ToUpper() == "Y") //입력을  받아서 대문자로변경 Y이면 판매
+                                            {
+                                                MyCharacter.Gold += (int)(selectedItem.ItemGold * 0.85); // 골드 추가
+                                                MyCharacter.Inventory.RemoveAt(itemChoice - 1); // 아이템 삭제
+
+                                                Console.WriteLine($"{selectedItem.Name}을(를) 판매했습니다! 현재 골드: {MyCharacter.Gold}");
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("판매를 취소했습니다.");
+                                                break;
+                                            }
+                                        }
+
+
+                                    }
+                                }
+                                else if (Num == 0)
+                                {
+                                    Console.WriteLine("상점을 나갑니다.");
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("0 ~ 2의 숫자를 선택하세요.");
+                            }
                         }
-                        else if (buyChoice != 0)
-                        {
-                            Console.WriteLine("잘못된 입력입니다.");
-                        }
+
+
+
 
                     }
                     else if (Num == 4)
@@ -504,18 +590,18 @@ namespace ConsoleApp2
                                 }
                                 else if (Num == 1)
                                 {
-                                    Dungeon(MyCharacter, ref ClearCount, "Easy" ,5);
+                                    Dungeon(MyCharacter, ref ClearCount, "Easy", 5);
                                     break;
                                 }
 
                                 else if (Num == 2)
                                 {
-                                    Dungeon(MyCharacter, ref ClearCount, "Normal",11);
+                                    Dungeon(MyCharacter, ref ClearCount, "Normal", 11);
                                     break;
                                 }
                                 else if (Num == 3)
                                 {
-                                    Dungeon(MyCharacter, ref ClearCount, "Hard",17);
+                                    Dungeon(MyCharacter, ref ClearCount, "Hard", 17);
                                     break;
                                 }
                                 else
