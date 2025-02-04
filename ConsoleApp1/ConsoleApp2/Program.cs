@@ -38,7 +38,7 @@ namespace ConsoleApp2
         class Store
         {
             public List<Item> ItemsForSale { get; set; } // 상점에 등록된 아이템 리스트
-            public List<Item> ItemBuy {  get; set; }
+            public List<Item> ItemBuy { get; set; }
 
             public Store()
             {
@@ -95,6 +95,162 @@ namespace ConsoleApp2
                     }
                 }
             }
+        }
+
+        static void Dungeon(Character MyCharacter, ref int ClearCount, string DungeonLevel , int RecommendedDefense)
+        {
+            if (DungeonLevel == "Easy")
+            {
+                Random random = new Random();
+                if (MyCharacter.Defense < RecommendedDefense)
+                {
+
+                    if (random.Next(0, 10) < 5)
+                    {
+                        Console.WriteLine("던전 클리어!");
+                        ClearCount += 1;
+                        Thread.Sleep(1000);
+                        Console.Write($"체력 {MyCharacter.Health} =>");
+                        MyCharacter.Health -= (random.Next(20,36) + (RecommendedDefense - MyCharacter.Defense)); // 권장 방어력 보다 낮으니 권장 방어력에서 내 방어력 빼기 한 값을 빼줌
+                        Console.WriteLine($"{MyCharacter.Health}");
+                        Console.Write($"Gold {MyCharacter.Gold} G =>");
+                        MyCharacter.Gold += 1000 + MyCharacter.Attack * random.Next(10, 20); ;
+                        Console.WriteLine($"{MyCharacter.Gold} G");
+                        Thread.Sleep(1000);
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("던전클리어를 실패하였습니다.");
+                        Thread.Sleep(1000);
+                        Console.Write($"체력 {MyCharacter.Health} =>");
+                        MyCharacter.Health /= 2; //체력 감소
+                        Console.WriteLine($"{MyCharacter.Health}");
+                        Thread.Sleep(1000);
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("던전 클리어!");
+                    ClearCount += 1; //클리어 횟수 증가
+                    Thread.Sleep(1000);
+                    Console.Write($"체력 {MyCharacter.Health} =>");
+                    MyCharacter.Health -= (random.Next(20, 36) - (MyCharacter.Defense - RecommendedDefense));  //체력 감소 내 방어력이 더 높으니 권장 방어력 - 한 값을 더해줌
+                    Console.WriteLine($"{MyCharacter.Health}");
+                    Console.Write($"Gold {MyCharacter.Gold} G =>");
+                    MyCharacter.Gold += 1000 + MyCharacter.Attack * random.Next(10, 20);  // 쉬운던전 클리어 보상 1000+공격력의 랜덤값 10~20%
+                    Console.WriteLine($"{MyCharacter.Gold} G");
+                    Thread.Sleep(1000);
+                }
+
+            }
+            else if (DungeonLevel == "Normal")
+            {
+                Random random = new Random();
+                if (MyCharacter.Defense < RecommendedDefense)
+                {
+
+                    if (random.Next(0, 10) < 5)
+                    {
+                        Console.WriteLine("던전 클리어!");
+                        ClearCount += 1;
+                        Thread.Sleep(1000);
+                        Console.Write($"체력 {MyCharacter.Health} =>");
+                        MyCharacter.Health -= (random.Next(20, 36) + (RecommendedDefense - MyCharacter.Defense)); // 권장 방어력 보다 낮으니 권장 방어력에서 내 방어력 빼기 한 값을 빼줌
+                        Console.WriteLine($"{MyCharacter.Health}");
+                        Console.Write($"Gold {MyCharacter.Gold} G =>");
+                        MyCharacter.Gold += 1700 + MyCharacter.Attack * random.Next(10, 20); ;
+                        Console.WriteLine($"{MyCharacter.Gold} G");
+                        Thread.Sleep(1000);
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("던전클리어를 실패하였습니다.");
+                        Thread.Sleep(1000);
+                        Console.Write($"체력 {MyCharacter.Health} =>");
+                        MyCharacter.Health /= 2; //체력 감소
+                        Console.WriteLine($"{MyCharacter.Health}");
+                        Thread.Sleep(1000);
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("던전 클리어!");
+                    ClearCount += 1; //클리어 횟수 증가
+                    Thread.Sleep(1000);
+                    Console.Write($"체력 {MyCharacter.Health} =>");
+                    MyCharacter.Health -= (random.Next(20, 36) - (MyCharacter.Defense - RecommendedDefense));  //체력 감소 내 방어력이 더 높으니 권장 방어력 - 한 값을 더해줌
+                    Console.WriteLine($"{MyCharacter.Health}");
+                    Console.Write($"Gold {MyCharacter.Gold} G =>");
+                    MyCharacter.Gold += 1700 + MyCharacter.Attack * random.Next(10, 20);  // 쉬운던전 클리어 보상 1000+공격력의 랜덤값 10~20%
+                    Console.WriteLine($"{MyCharacter.Gold} G");
+                    Thread.Sleep(1000);
+                }
+            }
+            else if (DungeonLevel == "Hard")
+            {
+                Random random = new Random();
+                if (MyCharacter.Defense < RecommendedDefense)
+                {
+
+                    if (random.Next(0, 10) < 5)
+                    {
+                        Console.WriteLine("던전 클리어!");
+                        ClearCount += 1;
+                        Thread.Sleep(1000);
+                        Console.Write($"체력 {MyCharacter.Health} =>");
+                        MyCharacter.Health -= (random.Next(20, 36) + (RecommendedDefense - MyCharacter.Defense)); // 권장 방어력 보다 낮으니 권장 방어력에서 내 방어력 빼기 한 값을 빼줌
+                        Console.WriteLine($"{MyCharacter.Health}");
+                        Console.Write($"Gold {MyCharacter.Gold} G =>");
+                        MyCharacter.Gold += 2500 + MyCharacter.Attack * random.Next(10, 20); ;
+                        Console.WriteLine($"{MyCharacter.Gold} G");
+                        Thread.Sleep(1000);
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("던전클리어를 실패하였습니다.");
+                        Thread.Sleep(1000);
+                        Console.Write($"체력 {MyCharacter.Health} =>");
+                        MyCharacter.Health /= 2; //체력 감소
+                        Console.WriteLine($"{MyCharacter.Health}");
+                        Thread.Sleep(1000);
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("던전 클리어!");
+                    ClearCount += 1; //클리어 횟수 증가
+                    Thread.Sleep(1000);
+                    Console.Write($"체력 {MyCharacter.Health} =>");
+                    MyCharacter.Health -= (random.Next(20, 36) - (MyCharacter.Defense - RecommendedDefense));  //체력 감소 내 방어력이 더 높으니 권장 방어력 - 한 값을 더해줌
+                    Console.WriteLine($"{MyCharacter.Health}");
+                    Console.Write($"Gold {MyCharacter.Gold} G =>");
+                    MyCharacter.Gold += 2500 + MyCharacter.Attack * random.Next(10, 20);  // 쉬운던전 클리어 보상 1000+공격력의 랜덤값 10~20%
+                    Console.WriteLine($"{MyCharacter.Gold} G");
+                    Thread.Sleep(1000);
+                }
+            }
+            if(MyCharacter.Health>0)
+            {
+                MyCharacter.Lv = ClearCount;
+                MyCharacter.Attack += 0.5f;
+                MyCharacter.Defense += 1;
+                Console.WriteLine($"Level UP! 현재 레벨{MyCharacter.Lv + 1}");
+                Console.WriteLine("능력치 공격력 0.5 방어력 1 증가");
+                Console.WriteLine($"현재 공격력:{MyCharacter.Attack} , 현재 방어력:{MyCharacter.Defense}");
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                Console.WriteLine("플레이어가 죽었습니다.");
+            }
+
+
         }
 
         class Character
@@ -170,9 +326,9 @@ namespace ConsoleApp2
                     if (item.ItemType == "방어" && item.IsEquipped) totalDefenseBonus += item.EffectValue; // 아이템이 방어이고 장착하였으면 전체 보너스 방어에 더해줌
                 }
                 //캐릭터 정보
-                Console.WriteLine("\n상태 보기"); 
+                Console.WriteLine("\n상태 보기");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.");
-                Console.WriteLine($"Name :{Name}"); 
+                Console.WriteLine($"Name :{Name}");
                 Console.WriteLine($"Lv. {Lv:00}");
                 Console.WriteLine($"Chad ( {Job} )");
                 Console.WriteLine($"공격력 : {Attack} {(totalAttackBonus > 0 ? $"(+{totalAttackBonus})" : "")}");
@@ -185,7 +341,7 @@ namespace ConsoleApp2
         static void Main()
         {
             string nickname;
-
+            int ClearCount = 0;
             while (true)
             {
                 Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.\n원하시는 이름을 입력해주세요.");
@@ -211,7 +367,7 @@ namespace ConsoleApp2
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
 
             //아이템 객체 생성
-            Item Armor = new Item("Armor", "수련에 도움을 주는 갑옷입니다.", 5, "방어", 1000); 
+            Item Armor = new Item("Armor", "수련에 도움을 주는 갑옷입니다.", 5, "방어", 1000);
             Item IronArmor = new Item("IronArmor", "무쇠로 만들어져 튼튼한 갑옷입니다.", 9, "방어", 2000);
             Item SpartaArmor = new Item("SpartaArmor", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 15, "방어", 3000);
 
@@ -232,6 +388,11 @@ namespace ConsoleApp2
 
             while (true)
             {
+                if (MyCharacter.Health <= 0) //플레이어가 죽으면 바로 빠져나오도록 하는 코드
+                {
+                    break;
+                }
+
                 int Num = 0;
                 Console.WriteLine("1.상태 보기 \n2.인벤토리\n3.상점\n4.던전\n5.휴식\n원하는 행동을 입력해주세요.");
                 string select = Console.ReadLine();
@@ -242,14 +403,14 @@ namespace ConsoleApp2
                     if (Num == 1)
                     {
                         MyCharacter.ShowStatus();
-                        
-                        while(true)
+
+                        while (true)
                         {
                             select = Console.ReadLine();
                             IsNum = int.TryParse(select, out Num);
                             if (IsNum)
                             {
-                                if(Num == 0)
+                                if (Num == 0)
                                 {
                                     break;
                                 }
@@ -297,7 +458,7 @@ namespace ConsoleApp2
                                     Console.WriteLine("이 아이템은 이미 장착되어 있습니다."); //아니면 장착되어있으니 다음과 같은 메세지 출력
                                 }
                             }
-                            else if(itemChoice == 0)
+                            else if (itemChoice == 0)
                             {
                                 continue;
                             }
@@ -324,18 +485,62 @@ namespace ConsoleApp2
                         }
 
                     }
-                    else if(Num == 4)
+                    else if (Num == 4)
                     {
+                        Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
+                        Console.WriteLine("1.쉬운던전   | 방어력 5이상 권장");
+                        Console.WriteLine("2.일반던전   | 방어력 11이상 권장");
+                        Console.WriteLine("3.어려운던전   | 방어력 17이상 권장");
+                        Console.WriteLine("0.나가기\n원하시는 행동을 입력해주세요.");
+                        while (true)
+                        {
+                            select = Console.ReadLine();
+                            IsNum = int.TryParse(select, out Num);
+                            if (IsNum)
+                            {
+                                if (Num == 0)
+                                {
+                                    break;
+                                }
+                                else if (Num == 1)
+                                {
+                                    Dungeon(MyCharacter, ref ClearCount, "Easy" ,5);
+                                    break;
+                                }
+
+                                else if (Num == 2)
+                                {
+                                    Dungeon(MyCharacter, ref ClearCount, "Normal",11);
+                                    break;
+                                }
+                                else if (Num == 3)
+                                {
+                                    Dungeon(MyCharacter, ref ClearCount, "Hard",17);
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("0 ~ 3 숫자를 입력해주세요");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("잘못된 입력입니다. 숫자를 입력해주세요.");
+                            }
+                        }
+
+
 
                     }
-                    else if(Num == 5)
+                    else if (Num == 5)
                     {
                         Console.WriteLine($"500G 를 내면 체력을 회복할 수 있습니다. (보유 골드{MyCharacter.Gold} G)");
                         Console.WriteLine("1.휴식하기\n0.나가기");
                         Num = int.Parse(Console.ReadLine());
-                        while(true)
+                        while (true)
                         {
-                            if(Num == 1)
+                            if (Num == 1)
                             {
                                 Console.WriteLine("우와 맛있는 음식이다.!");
                                 Thread.Sleep(1000);
@@ -346,7 +551,7 @@ namespace ConsoleApp2
                                 Console.WriteLine("쿨쿨쿨~~~");
                                 Console.WriteLine("체력이 50 회복되었습니다.");
                                 MyCharacter.Health += 50;
-                                if(MyCharacter.Health>=100)
+                                if (MyCharacter.Health >= 100)
                                 {
                                     MyCharacter.Health = 100;
                                 }
@@ -354,7 +559,7 @@ namespace ConsoleApp2
                                 Console.WriteLine($"현재체력 : {MyCharacter.Health}");
                                 break;
                             }
-                            else if(Num == 0)
+                            else if (Num == 0)
                             {
                                 break;
                             }
@@ -362,9 +567,9 @@ namespace ConsoleApp2
                             {
                                 Console.WriteLine("0 또는 1을 입력해주세요.");
                             }
-                        
-                                    
-                         }
+
+
+                        }
 
                     }
                     else
@@ -377,6 +582,7 @@ namespace ConsoleApp2
                     Console.WriteLine("잘못된 입력입니다\n");
                 }
             }
+            Console.WriteLine("프로그램을 다시 시작하십시오.");
         }
     }
 }
