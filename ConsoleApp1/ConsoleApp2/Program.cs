@@ -263,7 +263,7 @@ namespace ConsoleApp2
 
         class Character
         {
-            public string Name { get; set; }
+            public string Name { get; set; } // 캐릭터 이름
             public int Lv { get; set; } // 레벨
             public string Job { get; set; } // 직업
             public float Attack { get; set; } // 공격력
@@ -334,20 +334,21 @@ namespace ConsoleApp2
                 }
             }
 
-            public void UnequipItem()
-            {
-                if (EquippedItem != null)
-                {
-                    EquippedItem.IsEquipped = false;
-                    Defense -= EquippedItem.EffectValue;  // 방어력 감소
-                    Console.WriteLine($"{EquippedItem.Name}을(를) 해제했습니다.");
-                    EquippedItem = null;
-                }
-                else
-                {
-                    Console.WriteLine("장착된 아이템이 없습니다.");
-                }
-            }
+            //public void UnequipItem()
+            //{
+            //    if (EquippedItem != null)
+            //    {
+            //        EquippedItem.IsEquipped = false;
+            //        Defense -= EquippedItem.EffectValue;  // 방어력 감소
+            //        Console.WriteLine($"{EquippedItem.Name}을(를) 해제했습니다.");
+            //        EquippedItem = null;
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("장착된 아이템이 없습니다.");
+            //    }
+            //}
+
             public void ShowStatus()
             {
                 int totalAttackBonus = 0; //전체 공격 보너스
@@ -406,6 +407,7 @@ namespace ConsoleApp2
             Item Sword = new Item("Sword", "쉽게 볼 수 있는 낡은 검입니다.", 2, "공격력", 600);
             Item BronzeAx = new Item("BronzeAx", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 1500);
             Item SpartSpear = new Item("SpartSpear", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 2000);
+            //상점에 등록
             myStore.AddItemToStore(Armor);
             myStore.AddItemToStore(IronArmor);
             myStore.AddItemToStore(SpartaArmor);
@@ -414,17 +416,16 @@ namespace ConsoleApp2
             myStore.AddItemToStore(SpartSpear);
 
 
-            MyCharacter.Inventory.Add(IronArmor);  // IronArmor 아이템을 인벤토리에 추가
-            MyCharacter.Inventory.Add(SpartSpear);
-            MyCharacter.Inventory.Add(Sword);
+            //MyCharacter.Inventory.Add(IronArmor);  // IronArmor 아이템을 인벤토리에 추가
+            //MyCharacter.Inventory.Add(SpartSpear);
+            //MyCharacter.Inventory.Add(Sword);
 
             while (true)
             {
                 if (MyCharacter.Health <= 0) //플레이어가 죽으면 바로 빠져나오도록 하는 코드
                 {
                     break;
-                }
-
+                }                
                 int Num = 0;
                 Console.WriteLine("1.상태 보기 \n2.인벤토리\n3.상점\n4.던전\n5.휴식\n원하는 행동을 입력해주세요.");
                 string select = Console.ReadLine();
@@ -487,7 +488,7 @@ namespace ConsoleApp2
                                 }
                                 else
                                 {
-                                    Console.WriteLine("이 아이템은 이미 장착되어 있습니다."); //아니면 장착되어있으니 다음과 같은 메세지 출력
+                                    Console.WriteLine("이 아이템은 이미 장착되어 있습니다."); //아니면 장착되어있으니 다음과 같은 메세지 출력                                    
                                 }
                             }
                             else if (itemChoice == 0)
@@ -516,7 +517,7 @@ namespace ConsoleApp2
                                 {
                                     Console.WriteLine("아이템 구매를 선택하셨군요. 보기에서 원하는 아이템 번호를 입력하세요.");
                                     Console.WriteLine($"[보유 골드]\n{MyCharacter.Gold}");
-                                    myStore.ShowStoreItems();
+                                    myStore.ShowStoreItems(); // 아이템 목록 보여주는 매서드 실행
                                     Console.WriteLine("\n0.나가기");
                                     int buyChoice;
                                     if (int.TryParse(Console.ReadLine(), out buyChoice) && buyChoice >= 1 && buyChoice <= myStore.ItemsForSale.Count)
@@ -555,11 +556,11 @@ namespace ConsoleApp2
 
                                         }
 
-                                        Console.WriteLine("판매할 아이템을 번호를 입력하세요. 0.나가기");
+                                        Console.WriteLine("판매할 아이템을 번호를 입력하세요.");
                                         int itemChoice;
                                         if (int.TryParse(Console.ReadLine(), out itemChoice) && itemChoice >= 1 && itemChoice <= MyCharacter.Inventory.Count)
                                         {
-
+                                            
                                             var selectedItem = MyCharacter.Inventory[itemChoice - 1];
                                             Console.WriteLine($"{selectedItem.Name}을(를) {selectedItem.ItemGold * 0.85} 골드에 판매하시겠습니까? (Y/N)");
 
@@ -628,7 +629,7 @@ namespace ConsoleApp2
                                 }
                                 else if (Num == 1)
                                 {
-                                    Dungeon(MyCharacter, ref ClearCount, "Easy", 5);
+                                    Dungeon(MyCharacter, ref ClearCount, "Easy", 5); //던전 캐릭터 객체 , 참조형태로 count값 전달 , 난이도 , 권장방어력
                                     break;
                                 }
 
@@ -664,7 +665,7 @@ namespace ConsoleApp2
                         Num = int.Parse(Console.ReadLine());
                         while (true)
                         {
-                            if (Num == 1)
+                            if (Num == 1) //비교적 간단한 로직 Sleep 함수를 추가하여 좀 더 생동감있게 로직을 구현
                             {
                                 Console.WriteLine("우와 맛있는 음식이다.!");
                                 Thread.Sleep(1000);
