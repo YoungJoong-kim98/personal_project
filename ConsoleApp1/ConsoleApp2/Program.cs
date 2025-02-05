@@ -7,7 +7,6 @@ namespace ConsoleApp2
 {
     class Program
     {
-
         public class Item
         {
             public string Name { get; set; } // 아이템 이름
@@ -19,7 +18,6 @@ namespace ConsoleApp2
             public string ItemType { get; set; } // 아이템 타입
             public float ItemGold { get; set; } // 아이템 금액
             public bool ItemBuy; // 아이템 구매 여부
-
             public Item(string name, string description, int effectValue, string Type, float Gold)
             {
                 //아이템 객체 생성 때 정보 등록
@@ -29,10 +27,8 @@ namespace ConsoleApp2
                 ItemType = Type;
                 IsEquipped = false;
                 TopItem = false;
-                WeaponItem = false;
-                
+                WeaponItem = false;          
                 ItemGold = Gold;
-
                 ItemBuy = false; // 상점 아이템 구매 여부
             }
 
@@ -292,8 +288,6 @@ namespace ConsoleApp2
             {
                 if (item != null && !item.IsEquipped) //아이템이 null이 아니고 장착여부가 false 이면 실행
                 {
-
-
                     if (item.ItemType == "공격력") // 아이템 타입이 공격력
                     {
                         // 인벤토리를 전부 뒤져서 장착여부와 공격아이템이 true인지를 확인 중복 장착을 방지하도록하기위해서 있을시 능력치 감소 및 해제
@@ -306,7 +300,6 @@ namespace ConsoleApp2
                                 item2.TopItem = false;
                             }
                         }
-
                         item.WeaponItem = true; // 공격 아이템 장착
                         Attack += item.EffectValue;  // 장착 시 공격력 증가
                     }
@@ -409,6 +402,8 @@ namespace ConsoleApp2
             Item BronzeAx = new Item("BronzeAx", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 1500);
             Item SpartSpear = new Item("SpartSpear", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 2000);
             Item YoungSword = new Item("개발자의 창", "그 어떤 방패도 뚫는 전설의 창입니다.", 100, "공격력", 50000);
+
+
             //상점에 등록
             myStore.AddItemToStore(Armor);
             myStore.AddItemToStore(IronArmor);
@@ -556,8 +551,6 @@ namespace ConsoleApp2
 
                                             Console.WriteLine($"  {index} | {(item.IsEquipped ? "[E]" : "")} | {item.Name} | {item.EffectValue} | {item.Description} | 판매금액 {item.ItemGold * 0.85}");
                                             index++;
-
-
                                         }
 
                                         Console.WriteLine("판매할 아이템을 번호를 입력하세요.");
@@ -594,8 +587,6 @@ namespace ConsoleApp2
                                                 break;
                                             }
                                         }
-
-
                                     }
                                 }
                                 else if (Num == 0)
