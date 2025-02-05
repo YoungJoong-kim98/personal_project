@@ -403,18 +403,22 @@ namespace ConsoleApp2
             Item Armor = new Item("Armor", "수련에 도움을 주는 갑옷입니다.", 5, "방어력", 1000);
             Item IronArmor = new Item("IronArmor", "무쇠로 만들어져 튼튼한 갑옷입니다.", 9, "방어력", 2000);
             Item SpartaArmor = new Item("SpartaArmor", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 15, "방어력", 3000);
+            Item YoungArmor = new Item("개발자의 갑옷", "그 어떤 공격도 막아내는 전설의 갑옷입니다.", 100, "방어력",50000);
 
             Item Sword = new Item("Sword", "쉽게 볼 수 있는 낡은 검입니다.", 2, "공격력", 600);
             Item BronzeAx = new Item("BronzeAx", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 1500);
             Item SpartSpear = new Item("SpartSpear", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 2000);
+            Item YoungSword = new Item("개발자의 창", "그 어떤 방패도 뚫는 전설의 창입니다.", 100, "공격력", 50000);
             //상점에 등록
             myStore.AddItemToStore(Armor);
             myStore.AddItemToStore(IronArmor);
             myStore.AddItemToStore(SpartaArmor);
+            myStore.AddItemToStore(YoungArmor);
+
             myStore.AddItemToStore(Sword);
             myStore.AddItemToStore(BronzeAx);
             myStore.AddItemToStore(SpartSpear);
-
+            myStore.AddItemToStore(YoungSword);
 
             //MyCharacter.Inventory.Add(IronArmor);  // IronArmor 아이템을 인벤토리에 추가
             //MyCharacter.Inventory.Add(SpartSpear);
