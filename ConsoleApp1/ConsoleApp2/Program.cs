@@ -355,8 +355,8 @@ namespace ConsoleApp2
                 int totalDefenseBonus = 0; // 전체 방어 보너스
                 foreach (var item in Inventory) // 내 인벤토리에서 아이템을 꺼내옴 item에 저장
                 {
-                    if (item.ItemType == "공격" && item.IsEquipped) totalAttackBonus += item.EffectValue; // 아이템이 공격이고 장착하였으면 전체 보너스 공격에 더해줌
-                    if (item.ItemType == "방어" && item.IsEquipped) totalDefenseBonus += item.EffectValue; // 아이템이 방어이고 장착하였으면 전체 보너스 방어에 더해줌
+                    if (item.ItemType == "공격력" && item.IsEquipped) totalAttackBonus += item.EffectValue; // 아이템이 공격이고 장착하였으면 전체 보너스 공격에 더해줌
+                    if (item.ItemType == "방어력" && item.IsEquipped) totalDefenseBonus += item.EffectValue; // 아이템이 방어이고 장착하였으면 전체 보너스 방어에 더해줌
                 }
                 //캐릭터 정보
                 Console.WriteLine("\n상태 보기");
