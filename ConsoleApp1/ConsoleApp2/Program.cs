@@ -17,6 +17,8 @@ namespace ConsoleApp2
             public string ItemType { get; set; } // 아이템 타입
             public float ItemGold { get; set; } // 아이템 금액
 
+            public bool ItemBuy; // 아이템 구매 여부
+
 
             public Item(string name, string description, int effectValue, string Type, float Gold)
             {
@@ -27,6 +29,8 @@ namespace ConsoleApp2
                 ItemType = Type;
                 IsEquipped = false;
                 ItemGold = Gold;
+
+                ItemBuy = false; // 상점 아이템 구매 여부
             }
 
             //public void Use(Character character)
@@ -40,12 +44,12 @@ namespace ConsoleApp2
             public List<Item> ItemsForSale { get; set; } // 상점에 등록된 아이템 리스트
             //public List<Item> ItemBuy { get; set; } // 임시
 
-            public bool ItemBuy; // 아이템 구매 여부
+            
             public Store()
             {
                 ItemsForSale = new List<Item>(); // 아이템 리스트 초기화
                 //ItemBuy = new List<Item>(); //구매한 아이템 리스트 초기화 임시
-                ItemBuy = false;
+                
             }
 
             // 아이템을 상점에 등록하는 메서드
@@ -68,7 +72,7 @@ namespace ConsoleApp2
                         character.Inventory.Add(selectedItem); //내 인벤토리 리스트에 추가
                         //ItemBuy.Add(selectedItem); //구매한 아이템 리스트 추가
                         Console.WriteLine($"{selectedItem.Name}을(를) 구매하였습니다!");
-                        ItemBuy= true;
+                        selectedItem.ItemBuy = true; // 상점에 아이템 구매 여부를 true 바꿔줌
                     }
                     else
                     {
@@ -94,7 +98,7 @@ namespace ConsoleApp2
                     for (int i = 0; i < ItemsForSale.Count; i++)
                     {
                         var item = ItemsForSale[i]; // 0번째 인덱스부터 상점리스트에 있는 갯수만큼 상점에 출력
-                        Console.WriteLine($"{i + 1}. {item.Name} | 가격: {item.ItemGold} 골드 | {item.Description} ");
+                        Console.WriteLine($"{i + 1}. {item.Name} | {item.ItemType}+{item.EffectValue} | {item.Description} | {(item.ItemBuy ? "구매완료" : item.ItemGold+" G")}");
                     }
                 }
             }
@@ -290,11 +294,11 @@ namespace ConsoleApp2
                 {
                     item.IsEquipped = true;
                     EquippedItem = item;
-                    if (item.ItemType == "공격")
+                    if (item.ItemType == "공격력")
                     {
                         Attack += item.EffectValue;  // 장착 시 공격력 증가
                     }
-                    else if (item.ItemType == "방어")
+                    else if (item.ItemType == "방어력")
                     {
                         Defense += item.EffectValue; // 장착 시 방어력 증가
                     }
@@ -371,13 +375,13 @@ namespace ConsoleApp2
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
 
             //아이템 객체 생성
-            Item Armor = new Item("Armor", "수련에 도움을 주는 갑옷입니다.", 5, "방어", 1000);
-            Item IronArmor = new Item("IronArmor", "무쇠로 만들어져 튼튼한 갑옷입니다.", 9, "방어", 2000);
-            Item SpartaArmor = new Item("SpartaArmor", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 15, "방어", 3000);
+            Item Armor = new Item("Armor", "수련에 도움을 주는 갑옷입니다.", 5, "방어력", 1000);
+            Item IronArmor = new Item("IronArmor", "무쇠로 만들어져 튼튼한 갑옷입니다.", 9, "방어력", 2000);
+            Item SpartaArmor = new Item("SpartaArmor", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.", 15, "방어력", 3000);
 
-            Item Sword = new Item("Sword", "쉽게 볼 수 있는 낡은 검입니다.", 2, "공격", 600);
-            Item BronzeAx = new Item("BronzeAx", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격", 1500);
-            Item SpartSpear = new Item("SpartSpear", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격", 2000);
+            Item Sword = new Item("Sword", "쉽게 볼 수 있는 낡은 검입니다.", 2, "공격력", 600);
+            Item BronzeAx = new Item("BronzeAx", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 1500);
+            Item SpartSpear = new Item("SpartSpear", "스파르타의 전사들이 사용했다는 전설의 창입니다.", 7, "공격력", 2000);
             myStore.AddItemToStore(Armor);
             myStore.AddItemToStore(IronArmor);
             myStore.AddItemToStore(SpartaArmor);
@@ -539,8 +543,11 @@ namespace ConsoleApp2
 
                                             if (confirm.ToUpper() == "Y") //입력을  받아서 대문자로변경 Y이면 판매
                                             {
+
                                                 MyCharacter.Gold += (int)(selectedItem.ItemGold * 0.85); // 골드 추가
+                                                selectedItem.ItemBuy = false; // 상점에서 아이템 구매 여부를 다시 false로 주면서 상점을 다시 입장하면 구매완료가 안뜨도록 로직설계
                                                 MyCharacter.Inventory.RemoveAt(itemChoice - 1); // 아이템 삭제
+
 
                                                 Console.WriteLine($"{selectedItem.Name}을(를) 판매했습니다! 현재 골드: {MyCharacter.Gold}");
                                                 break;
