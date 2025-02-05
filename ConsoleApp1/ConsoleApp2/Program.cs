@@ -14,11 +14,11 @@ namespace ConsoleApp2
             public string Description { get; set; } // 아이템 설명
             public int EffectValue { get; set; }  // 아이템 효과
             public bool IsEquipped { get; set; }  // 아이템 장착 여부
+            public bool WeaponItem {  get; set; } //공격 아이템 장착 여부
+            public bool TopItem { get; set; } // 상의 아이템 장착여부
             public string ItemType { get; set; } // 아이템 타입
             public float ItemGold { get; set; } // 아이템 금액
-
             public bool ItemBuy; // 아이템 구매 여부
-
 
             public Item(string name, string description, int effectValue, string Type, float Gold)
             {
@@ -28,6 +28,9 @@ namespace ConsoleApp2
                 EffectValue = effectValue;
                 ItemType = Type;
                 IsEquipped = false;
+                TopItem = false;
+                WeaponItem = false;
+                
                 ItemGold = Gold;
 
                 ItemBuy = false; // 상점 아이템 구매 여부
@@ -42,14 +45,12 @@ namespace ConsoleApp2
         class Store
         {
             public List<Item> ItemsForSale { get; set; } // 상점에 등록된 아이템 리스트
-            //public List<Item> ItemBuy { get; set; } // 임시
 
-            
+                        
             public Store()
             {
                 ItemsForSale = new List<Item>(); // 아이템 리스트 초기화
-                //ItemBuy = new List<Item>(); //구매한 아이템 리스트 초기화 임시
-                
+                               
             }
 
             // 아이템을 상점에 등록하는 메서드
@@ -70,7 +71,6 @@ namespace ConsoleApp2
                     {
                         character.Gold -= selectedItem.ItemGold; // 선택한 아이템 골드에서 내 골드를 뺌
                         character.Inventory.Add(selectedItem); //내 인벤토리 리스트에 추가
-                        //ItemBuy.Add(selectedItem); //구매한 아이템 리스트 추가
                         Console.WriteLine($"{selectedItem.Name}을(를) 구매하였습니다!");
                         selectedItem.ItemBuy = true; // 상점에 아이템 구매 여부를 true 바꿔줌
                     }
@@ -292,16 +292,40 @@ namespace ConsoleApp2
             {
                 if (item != null && !item.IsEquipped) //아이템이 null이 아니고 장착여부가 false 이면 실행
                 {
-                    item.IsEquipped = true;
-                    EquippedItem = item;
-                    if (item.ItemType == "공격력")
+
+
+                    if (item.ItemType == "공격력") // 아이템 타입이 공격력
                     {
+                        // 인벤토리를 전부 뒤져서 장착여부와 공격아이템이 true인지를 확인 중복 장착을 방지하도록하기위해서 있을시 능력치 감소 및 해제
+                        foreach (Item item2 in Inventory) 
+                        {
+                            if (item2.IsEquipped == true && item2.WeaponItem == true)
+                            {
+                                Attack -= item2.EffectValue;
+                                item2.IsEquipped = false;
+                                item2.TopItem = false;
+                            }
+                        }
+
+                        item.WeaponItem = true; // 공격 아이템 장착
                         Attack += item.EffectValue;  // 장착 시 공격력 증가
                     }
                     else if (item.ItemType == "방어력")
                     {
+                        foreach (Item item2 in Inventory)
+                        {
+                            if (item2.IsEquipped == true && item2.TopItem == true)
+                            {
+                                Defense -= item2.EffectValue;
+                                item2.IsEquipped = false;
+                                item2.TopItem = false;
+                            }
+                        }
+                        item.TopItem = true; //방어 아이템 장착
                         Defense += item.EffectValue; // 장착 시 방어력 증가
                     }
+                    item.IsEquipped = true;
+                    EquippedItem = item;
                     Console.WriteLine($"{item.Name}을 장착했습니다.");
                 }
                 else
@@ -543,7 +567,14 @@ namespace ConsoleApp2
 
                                             if (confirm.ToUpper() == "Y") //입력을  받아서 대문자로변경 Y이면 판매
                                             {
-
+                                                if(selectedItem.ItemType == "공격력" && selectedItem.IsEquipped == true) 
+                                                {
+                                                    MyCharacter.Attack -= selectedItem.EffectValue; //아이템 장착 여부와 타입에 따른 능력치 감소
+                                                }
+                                                else if(selectedItem.ItemType == "방어력" && selectedItem.IsEquipped == true)
+                                                {
+                                                    MyCharacter.Defense -= selectedItem.EffectValue;
+                                                }
                                                 MyCharacter.Gold += (int)(selectedItem.ItemGold * 0.85); // 골드 추가
                                                 selectedItem.ItemBuy = false; // 상점에서 아이템 구매 여부를 다시 false로 주면서 상점을 다시 입장하면 구매완료가 안뜨도록 로직설계
                                                 MyCharacter.Inventory.RemoveAt(itemChoice - 1); // 아이템 삭제
@@ -660,7 +691,6 @@ namespace ConsoleApp2
                             {
                                 Console.WriteLine("0 또는 1을 입력해주세요.");
                             }
-
 
                         }
 
