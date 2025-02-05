@@ -354,9 +354,8 @@ namespace ConsoleApp2
                 //캐릭터 정보
                 Console.WriteLine("\n상태 보기");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.");
-                Console.WriteLine($"Name :{Name}");
                 Console.WriteLine($"Lv. {Lv:00}");
-                Console.WriteLine($"Chad ( {Job} )");
+                Console.WriteLine($"{Name} ( {Job} )");
                 Console.WriteLine($"공격력 : {Attack} {(totalAttackBonus > 0 ? $"(+{totalAttackBonus})" : "")}");
                 Console.WriteLine($"방어력 : {Defense} {(totalDefenseBonus > 0 ? $"(+{totalDefenseBonus})" : "")}");
                 Console.WriteLine($"체력 : {Health}");
